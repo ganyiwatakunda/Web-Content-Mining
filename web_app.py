@@ -1,35 +1,44 @@
 import streamlit as st
 import pandas as pd
 import pickle
-
 from preprocessing_utils import *
 
-st.write(""" 
-    # Web Content Mining 
+# Set page config
+st.set_page_config(page_title="Web Content Mining", layout="centered")
+
+# Landing Image
+st.image("news_landing.jpg", use_column_width=True)
+
+# Title and Description
+st.title("📰 Web Content Mining Platform")
+st.markdown("""
+Welcome to a web-based platform that clusters and displays related stories based on selected categories from four online newspapers.
+Select a category below to explore the clustered articles.
 """)
 
-st.write(""" 
-    A web based platform that displays a cluster and the urls of related stories in that cluster, given a selected categories based 
-    on 4 online newspapers
-""")
-
-
+# Load Data
 articles = pd.read_csv('clustered_articles.csv')
-
-# Get selected category
-selected_category = st.selectbox("Select a category:", ['politics', 'business', 'culture', 'sports'])
-
-st.write('Selected Category:', selected_category)
-
 k_means = pickle.load(open('kmeans_model.pkl', 'rb'))
 
-# Filter articles by selected category
-clustered_articles = articles[articles['category'] == selected_category]
+# Category Selection
+selected_category = st.selectbox("📂 Select a news category:", ['Select one', 'politics', 'business', 'culture', 'sports'])
 
-# Display clusters and URLs of related stories
-for cluster in clustered_articles['clusters'].unique():
-    st.write('Cluster:', cluster)
-    cluster_articles = clustered_articles[clustered_articles['clusters'] == cluster]
-    st.write('Related Articles:')
-    st.write(cluster_articles[['article', 'url']])
-    st.write('---')
+# Proceed only if a real category is selected
+if selected_category != 'Select one':
+    st.markdown(f"### 🏷️ Displaying Clusters for: **{selected_category.capitalize()}**")
+
+    # Filter articles
+    clustered_articles = articles[articles['category'] == selected_category]
+
+    # Sort cluster labels (assuming integer labels)
+    sorted_clusters = sorted(clustered_articles['clusters'].unique())
+
+    # Display each cluster in an expandable section
+    for cluster in sorted_clusters:
+        with st.expander(f"🔹 Cluster {cluster}", expanded=False):
+            cluster_articles = clustered_articles[clustered_articles['clusters'] == cluster]
+            for _, row in cluster_articles.iterrows():
+                st.markdown(f"**{row['article']}**  \n[Read more]({row['url']})")
+            st.write("---")
+else:
+    st.info("Please select a category from the dropdown above to begin.")
