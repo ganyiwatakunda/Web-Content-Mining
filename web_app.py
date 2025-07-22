@@ -27,19 +27,23 @@ selected_category = st.selectbox("📂 Select a news category:", ['Select one', 
 # Proceed only if a real category is selected
 if selected_category != 'Select one':
     st.markdown(f"### 🏷️ Displaying Clusters for: **{selected_category.capitalize()}**")
-
-    # Filter articles
+# Filter articles
     clustered_articles = articles[articles['category'] == selected_category]
 
     # Sort cluster labels (assuming integer labels)
     sorted_clusters = sorted(clustered_articles['clusters'].unique())
-
+    
     # Display each cluster in an expandable section
     for cluster in sorted_clusters:
         with st.expander(f"🔹 Cluster {cluster}", expanded=False):
             cluster_articles = clustered_articles[clustered_articles['clusters'] == cluster]
+    
             for _, row in cluster_articles.iterrows():
-                st.markdown(f"**{row['article']}**  \n[Read more]({row['url']})")
-            st.write("---")
+                # Only show the article title and make it a clickable link
+                st.markdown(f"- [{row['article']}]({row['url']})")
+
+    
+    # Display each cluster in an expandable section
+   
 else:
     st.info("Please select a category from the dropdown above to begin.")
