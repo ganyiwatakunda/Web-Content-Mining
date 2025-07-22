@@ -7,8 +7,10 @@ from preprocessing_utils import *
 st.set_page_config(page_title="Web Content Mining", layout="centered")
 
 # Landing Image
-st.image("news_landing.jpg", use_column_width=True)
+#st.image("news_landing.jpg", use_column_width=True)
+st.image("news_landing.jpg", use_container_width=True)
 
+use_container_width
 # Title and Description
 st.title("📰 Web Content Mining Platform")
 st.markdown("""
