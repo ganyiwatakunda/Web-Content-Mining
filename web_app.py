@@ -8,7 +8,10 @@ from preprocessing_utils import *
 st.set_page_config(page_title="Web Content Mining", layout="centered")
 
 # Landing image (replace with your image path or URL)
-st.image("news_landing.jpg", use_container_width=True)
+#st.image("news_landing.jpg", use_container_width=True)
+st.image("news_landing.jpg", width=600)
+
+#width=600
 
 # Page title and description
 st.title("📰 Web Content Mining Platform")
