@@ -14,14 +14,14 @@ st.write("""
 """)
 
 
-articles = pd.read_csv('News_Articles_Mining-Clustering/clustered_articles.csv')
+articles = pd.read_csv('clustered_articles.csv')
 
 # Get selected category
 selected_category = st.selectbox("Select a category:", ['politics', 'business', 'culture', 'sports'])
 
 st.write('Selected Category:', selected_category)
 
-k_means = pickle.load(open('News_Articles_Mining-Clustering/kmeans_model.pkl', 'rb'))
+k_means = pickle.load(open('kmeans_model.pkl', 'rb'))
 
 # Filter articles by selected category
 clustered_articles = articles[articles['category'] == selected_category]
