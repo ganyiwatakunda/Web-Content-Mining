@@ -42,11 +42,3 @@ if selected_category != 'Select one':
 else:
     st.info("Please select a category to see the related clusters and articles.")
 
-
-
-
-    
-    # Display each cluster in an expandable section
-   
-else:
-    st.info("Please select a category from the dropdown above to begin.")
